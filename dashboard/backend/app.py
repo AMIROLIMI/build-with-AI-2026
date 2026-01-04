@@ -9,6 +9,10 @@ import pandas as pd
 from pathlib import Path
 import os
 from openai import OpenAI
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = FastAPI(title="Real Estate Dashboard API")
 
@@ -27,15 +31,15 @@ MODEL_PATH = Path(r"C:\Users\oamir\Desktop\Build with AI 2026\artifacts\catboost
 CSV_PATH = BASE_DIR / "Notebooks" / "somon_ml_clear_amir3.csv"
 GRAPHS_PATH = Path(r"C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs")
 
-# OpenAI API
-OPENAI_API_KEY = "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"
+# OpenAI API - load from environment variable
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 try:
     if OPENAI_API_KEY:
         openai_client = OpenAI(api_key=OPENAI_API_KEY)
         print("✅ OpenAI client initialized successfully")
     else:
         openai_client = None
-        print("⚠️ OpenAI API key not provided")
+        print("⚠️ OpenAI API key not provided (set OPENAI_API_KEY environment variable)")
 except Exception as e:
     openai_client = None
     print(f"❌ Failed to initialize OpenAI client: {e}")
@@ -139,9 +143,9 @@ def prepare_features(data: dict):
         traceback.print_exc()
         raise
 
-async def generate_explanation(input_data: dict, predicted_price: float, user_price: float = None, status: str = None):
+async def generate_explanation(input_data: dict, predicted_price: float, user_price: float = None, status: str = None, diff_percent: float = None):
     """Generate explanation and recommendations using OpenAI"""
-    print(f"🤖 generate_explanation called with: price={predicted_price}, user_price={user_price}, status={status}")
+    print(f"🤖 generate_explanation called with: price={predicted_price}, user_price={user_price}, status={status}, diff_percent={diff_percent}")
     print(f"   Input data keys: {list(input_data.keys())}")
     
     if not openai_client:
@@ -173,15 +177,35 @@ async def generate_explanation(input_data: dict, predicted_price: float, user_pr
         
         feature_text = "\n".join(feature_analysis[:5])  # Top 5 features
         
+        # Calculate price difference if user_price is provided
+        price_context = ""
+        recommendation_instruction = ""
+        
+        if user_price:
+            diff = user_price - predicted_price
+            diff_percent = (diff / predicted_price) * 100
+            
+            if diff_percent <= -5:
+                price_context = f"Цена пользователя: {user_price:,.0f} сомони (на {abs(diff_percent):.1f}% НИЖЕ рыночной {predicted_price:,.0f} сомони)"
+                recommendation_instruction = f"Скажи что это ОТЛИЧНО! Квартира продастся очень быстро, возможно даже в течение недели. Если не спешите, можно немного поднять цену до {int(predicted_price * 0.95):,} сомони и все равно продать быстро."
+            elif diff_percent <= 0:
+                price_context = f"Цена пользователя: {user_price:,.0f} сомони (на {abs(diff_percent):.1f}% ниже или равна рыночной {predicted_price:,.0f} сомони)"
+                recommendation_instruction = f"Скажи что это ХОРОШАЯ цена для быстрой продажи. Квартира продастся в течение 2-4 недель. Можно оставить такую цену."
+            else:
+                price_context = f"Цена пользователя: {user_price:,.0f} сомони (на {diff_percent:.1f}% ВЫШЕ рыночной {predicted_price:,.0f} сомони)"
+                recommendation_instruction = f"Скажи что для БЫСТРОЙ продажи (в течение месяца) лучше снизить цену до {int(predicted_price):,} сомони или даже до {int(predicted_price * 0.95):,} сомони. Иначе продажа может затянуться на 2-3 месяца или больше."
+        else:
+            price_context = "Цена пользователя не указана"
+            recommendation_instruction = "Дай общую рекомендацию что можно улучшить для повышения цены или скорости продажи (улучшить ремонт, добавить отопление и т.д.)."
+        
         # Build prompt
         prompt = f"""Ты - эксперт по недвижимости в Таджикистане. Проанализируй прогноз цены квартиры и дай объяснение.
 
 Характеристики квартиры:
 {feature_text}
 
-Прогнозируемая цена: {predicted_price:,.0f} сомони
-{'Цена пользователя: ' + str(user_price) + ' сомони' if user_price else ''}
-{'Статус: ' + status if status else ''}
+Прогнозируемая рыночная цена: {predicted_price:,.0f} сомони
+{price_context if price_context else 'Цена пользователя не указана'}
 
 Важность признаков модели (feature importance):
 - Площадь (area_m2): 30.17% - самый важный фактор
@@ -195,8 +219,10 @@ async def generate_explanation(input_data: dict, predicted_price: float, user_pr
 - Тип застройки (build_type): 1.64%
 - Санузел (bathroom): 1.64%
 
-Дай краткое объяснение (2-3 предложения) почему модель дала такой прогноз, учитывая важность признаков и конкретные значения характеристик квартиры.
-Затем дай короткую рекомендацию (1-2 предложения) что можно улучшить для повышения цены или скорости продажи.
+ЗАДАНИЕ:
+1. ОБЪЯСНЕНИЕ (2-3 предложения): Объясни почему модель дала именно такую цену ({predicted_price:,.0f} сомони), а не выше или ниже. Укажи какие конкретные характеристики квартиры повлияли на цену (учитывая важность признаков). Например: "Цена получилась такой потому что площадь X м² (самый важный фактор 30%), ремонт Y (18%), район Z (12%)..."
+
+2. РЕКОМЕНДАЦИЯ (1-2 предложения): {recommendation_instruction}
 
 Ответ на русском языке, формат:
 ОБЪЯСНЕНИЕ: [объяснение]
@@ -316,22 +342,57 @@ async def predict_sale(request: PredictionRequest):
         if user_price is None:
             # Generate explanation even without user price
             print(f"🔄 Starting explanation generation (no user price)...")
-            explanation_data = await generate_explanation(
-                request.dict(),
-                predicted_price,
-                None,
-                None
-            )
-            print(f"📋 Explanation data received: {explanation_data}")
+            explanation_text = ""
+            recommendation_text = ""
+            
+            try:
+                explanation_data = await generate_explanation(
+                    request.dict(),
+                    predicted_price,
+                    None,
+                    None
+                )
+                print(f"📋 Explanation data received: {explanation_data}")
+                print(f"📋 Explanation data type: {type(explanation_data)}")
+                
+                # Ensure explanation_data is not None
+                if explanation_data and isinstance(explanation_data, dict):
+                    explanation_text = explanation_data.get("explanation", "")
+                    recommendation_text = explanation_data.get("recommendation", "")
+                else:
+                    print("⚠️ WARNING: explanation_data is not a dict or is None!")
+            except Exception as expl_error:
+                print(f"❌ Error in generate_explanation: {expl_error}")
+                import traceback
+                traceback.print_exc()
+            
+            # Ensure we have non-empty strings - use fallback if needed
+            if not explanation_text or not explanation_text.strip():
+                print("⚠️ WARNING: explanation is empty, using fallback")
+                area = request.dict().get('area_m2', 'N/A')
+                renovation = request.dict().get('renovation', 'N/A')
+                district = request.dict().get('district', 'N/A')
+                explanation_text = f"Модель предсказала цену {predicted_price:,.0f} сомони на основе характеристик квартиры. Площадь {area} м² является самым важным фактором (30.17%), затем ремонт '{renovation}' (18.38%) и район '{district}' (12.67%)."
+            
+            if not recommendation_text or not recommendation_text.strip():
+                print("⚠️ WARNING: recommendation is empty, using fallback")
+                recommendation_text = "Введите цену для получения рекомендаций по продаже."
             
             response_data = {
-                "predicted_price": predicted_price,
+                "predicted_price": float(predicted_price),
                 "message": "Введите цену для анализа",
-                "explanation": explanation_data.get("explanation", "") if explanation_data else "",
-                "recommendation": explanation_data.get("recommendation", "") if explanation_data else ""
+                "explanation": str(explanation_text) if explanation_text else "",
+                "recommendation": str(recommendation_text) if recommendation_text else ""
             }
             
             print(f"📤 Sending response with explanation: {bool(response_data.get('explanation'))}")
+            print(f"   Explanation: {response_data.get('explanation', '')[:100]}...")
+            print(f"   Explanation length: {len(response_data.get('explanation', ''))}")
+            print(f"   Recommendation: {response_data.get('recommendation', '')[:100]}...")
+            print(f"   Recommendation length: {len(response_data.get('recommendation', ''))}")
+            print(f"✅ Final response_data keys: {list(response_data.keys())}")
+            print(f"✅ Full response_data: {response_data}")
+            
             return response_data
         
         # Calculate difference
