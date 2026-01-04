@@ -1,0 +1,56 @@
+Полные пути к графикам:
+
+КАТЕГОРИАЛЬНЫЕ ГРАФИКИ:
+1. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\категориальный_bathroom_распределение.png
+2. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\категориальный_build_type_распределение.png
+3. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\категориальный_condition_распределение.png
+4. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\категориальный_district_распределение.png
+5. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\категориальный_heating_распределение.png
+6. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\категориальный_renovation_распределение.png
+7. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\категориальный_rooms_распределение.png
+8. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\категориальный_techpassport_распределение.png
+
+КОРРЕЛЯЦИИ:
+9. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\корреляция_heatmap_числовые_признаки.png
+10. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\корреляция_price_с_признаками.png
+
+СВЯЗИ МЕЖДУ ПРИЗНАКАМИ:
+11. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\связи_price_vs_area_m2.png
+12. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\связи_price_vs_floor.png
+13. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\связи_price_vs_rooms.png
+14. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\связи_средняя_цена_по_build_type.png
+15. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\связи_средняя_цена_по_district.png
+16. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\связи_средняя_цена_по_renovation.png
+17. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\связи_средняя_цена_по_rooms.png
+
+ЧИСЛОВЫЕ ГРАФИКИ:
+18. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\числовой_area_m2_boxplot.png
+19. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\числовой_area_m2_распределение.png
+20. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\числовой_price_boxplot.png
+21. C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs\числовой_price_распределение.png
+
+ИТОГО: 21 график
+
+Пути для использования в веб-приложении (через API):
+http://localhost:8000/api/graphs/категориальный_bathroom_распределение.png
+http://localhost:8000/api/graphs/категориальный_build_type_распределение.png
+http://localhost:8000/api/graphs/категориальный_condition_распределение.png
+http://localhost:8000/api/graphs/категориальный_district_распределение.png
+http://localhost:8000/api/graphs/категориальный_heating_распределение.png
+http://localhost:8000/api/graphs/категориальный_renovation_распределение.png
+http://localhost:8000/api/graphs/категориальный_rooms_распределение.png
+http://localhost:8000/api/graphs/категориальный_techpassport_распределение.png
+http://localhost:8000/api/graphs/корреляция_heatmap_числовые_признаки.png
+http://localhost:8000/api/graphs/корреляция_price_с_признаками.png
+http://localhost:8000/api/graphs/связи_price_vs_area_m2.png
+http://localhost:8000/api/graphs/связи_price_vs_floor.png
+http://localhost:8000/api/graphs/связи_price_vs_rooms.png
+http://localhost:8000/api/graphs/связи_средняя_цена_по_build_type.png
+http://localhost:8000/api/graphs/связи_средняя_цена_по_district.png
+http://localhost:8000/api/graphs/связи_средняя_цена_по_renovation.png
+http://localhost:8000/api/graphs/связи_средняя_цена_по_rooms.png
+http://localhost:8000/api/graphs/числовой_area_m2_boxplot.png
+http://localhost:8000/api/graphs/числовой_area_m2_распределение.png
+http://localhost:8000/api/graphs/числовой_price_boxplot.png
+http://localhost:8000/api/graphs/числовой_price_распределение.png
+

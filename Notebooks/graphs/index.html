@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анализ данных - Визуализация графиков</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8f5e9 100%);
+            color: #2e7d32;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            border-radius: 10px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .section {
+            background: white;
+            margin-bottom: 40px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(46, 125, 50, 0.1);
+        }
+
+        .section-title {
+            color: #2e7d32;
+            font-size: 2em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #4caf50;
+        }
+
+        .graphs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .graph-card {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .graph-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.2);
+        }
+
+        .graph-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            border: 2px solid #4caf50;
+            margin-bottom: 15px;
+        }
+
+        .graph-title {
+            color: #2e7d32;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .graph-description {
+            color: #555;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .graphs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .section-title {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Анализ данных</h1>
+            <p>Визуализация графиков и статистических зависимостей</p>
+        </header>
+
+        <!-- Категориальные распределения -->
+        <section class="section">
+            <h2 class="section-title">Категориальные распределения</h2>
+            <div class="graphs-grid">
+                <div class="graph-card">
+                    <img src="категориальный_bathroom_распределение.png" alt="Распределение ванных комнат">
+                    <div class="graph-title">Распределение ванных комнат</div>
+                    <div class="graph-description">Показывает количество объектов с разным числом ванных комнат в датасете.</div>
+                </div>
+                <div class="graph-card">
+                    <img src="категориальный_build_type_распределение.png" alt="Распределение типов зданий">
+                    <div class="graph-title">Распределение типов зданий</div>
+                    <div class="graph-description">Визуализация различных типов зданий и их частоты в данных.</div>
+                </div>
+                <div class="graph-card">
+                    <img src="категориальный_condition_распределение.png" alt="Распределение состояний">
+                    <div class="graph-title">Распределение состояний</div>
+                    <div class="graph-description">Анализ состояния объектов недвижимости в выборке.</div>
+                </div>
+                <div class="graph-card">
+                    <img src="категориальный_district_распределение.png" alt="Распределение по районам">
+                    <div class="graph-title">Распределение по районам</div>
+                    <div class="graph-description">Географическое распределение объектов по различным районам.</div>
+                </div>
+                <div class="graph-card">
+                    <img src="категориальный_heating_распределение.png" alt="Распределение типов отопления">
+                    <div class="graph-title">Распределение типов отопления</div>
+                    <div class="graph-description">Частота различных типов систем отопления в объектах.</div>
+                </div>
+                <div class="graph-card">
+                    <img src="категориальный_renovation_распределение.png" alt="Распределение ремонта">
+                    <div class="graph-title">Распределение ремонта</div>
+                    <div class="graph-description">Показывает долю объектов с различным состоянием ремонта.</div>
+                </div>
+                <div class="graph-card">
+                    <img src="категориальный_rooms_распределение.png" alt="Распределение комнат">
+                    <div class="graph-title">Распределение комнат</div>
+                    <div class="graph-description">Статистика количества комнат в объектах недвижимости.</div>
+                </div>
+                <div class="graph-card">
+                    <img src="категориальный_techpassport_распределение.png" alt="Распределение техпаспортов">
+                    <div class="graph-title">Распределение техпаспортов</div>
+                    <div class="graph-description">Наличие технических паспортов у объектов в датасете.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Числовые распределения -->
+        <section class="section">
+            <h2 class="section-title">Числовые распределения</h2>
+            <div class="graphs-grid">
+                <div class="graph-card">
+                    <img src="числовой_area_m2_распределение.png" alt="Распределение площади">
+                    <div class="graph-title">Распределение площади (м²)</div>
+                    <div class="graph-description">Гистограмма распределения площади объектов недвижимости.</div>
+                </div>
+                <div class="graph-card">
+                    <img src="числовой_area_m2_boxplot.png" alt="Boxplot площади">
+                    <div class="graph-title">Boxplot площади (м²)</div>
+                    <div class="graph-description">Диаграмма размаха показывает медиану, квартили и выбросы для площади.</div>
+                </div>
+                <div class="graph-card">
+                    <img src="числовой_price_распределение.png" alt="Распределение цен">
+                    <div class="graph-title">Распределение цен</div>
+                    <div class="graph-description">Гистограмма распределения цен на объекты недвижимости.</div>
+                </div>
+                <div class="graph-card">
+                    <img src="числовой_price_boxplot.png" alt="Boxplot цен">
+                    <div class="graph-title">Boxplot цен</div>
+                    <div class="graph-description">Визуализация статистики цен: медиана, квартили и аномальные значения.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Корреляции -->
+        <section class="section">
+            <h2 class="section-title">Корреляционный анализ</h2>
+            <div class="graphs-grid">
+                <div class="graph-card">
+                    <img src="корреляция_heatmap_числовые_признаки.png" alt="Тепловая карта корреляций">
+                    <div class="graph-title">Тепловая карта корреляций</div>
+                    <div class="graph-description">Матрица корреляций между числовыми признаками. Красный цвет - сильная положительная связь, синий - отрицательная.</div>
+                </div>
+                <div class="graph-card">
+                    <img src="корреляция_price_с_признаками.png" alt="Корреляция цены с признаками">
+                    <div class="graph-title">Корреляция цены с признаками</div>
+                    <div class="graph-description">Показывает силу связи между ценой и другими числовыми параметрами объектов.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Связи и зависимости -->
+        <section class="section">
+            <h2 class="section-title">Анализ зависимостей</h2>
+            <div class="graphs-grid">
+                <div class="graph-card">
+                    <img src="связи_price_vs_area_m2.png" alt="Цена vs Площадь">
+                    <div class="graph-title">Цена vs Площадь</div>
+                    <div class="graph-description">Зависимость цены от площади объекта. Показывает, как площадь влияет на стоимость.</div>
+                </div>
+                <div class="graph-card">
+                    <img src="связи_price_vs_floor.png" alt="Цена vs Этаж">
+                    <div class="graph-title">Цена vs Этаж</div>
+                    <div class="graph-description">Влияние этажа расположения на цену недвижимости.</div>
+                </div>
+                <div class="graph-card">
+                    <img src="связи_price_vs_rooms.png" alt="Цена vs Количество комнат">
+                    <div class="graph-title">Цена vs Количество комнат</div>
+                    <div class="graph-description">Связь между количеством комнат и ценой объекта.</div>
+                </div>
+                <div class="graph-card">
+                    <img src="связи_средняя_цена_по_build_type.png" alt="Средняя цена по типу здания">
+                    <div class="graph-title">Средняя цена по типу здания</div>
+                    <div class="graph-description">Сравнение средних цен для разных типов зданий.</div>
+                </div>
+                <div class="graph-card">
+                    <img src="связи_средняя_цена_по_district.png" alt="Средняя цена по району">
+                    <div class="graph-title">Средняя цена по району</div>
+                    <div class="graph-description">Географический анализ: средние цены в различных районах.</div>
+                </div>
+                <div class="graph-card">
+                    <img src="связи_средняя_цена_по_renovation.png" alt="Средняя цена по ремонту">
+                    <div class="graph-title">Средняя цена по ремонту</div>
+                    <div class="graph-description">Влияние состояния ремонта на среднюю стоимость объектов.</div>
+                </div>
+                <div class="graph-card">
+                    <img src="связи_средняя_цена_по_rooms.png" alt="Средняя цена по количеству комнат">
+                    <div class="graph-title">Средняя цена по количеству комнат</div>
+                    <div class="graph-description">Средние цены в зависимости от количества комнат в объекте.</div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
+
