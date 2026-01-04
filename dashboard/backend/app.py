@@ -12,7 +12,17 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
-load_dotenv()
+# Try to load from backend directory first, then from project root
+env_path = Path(__file__).parent / ".env"
+if not env_path.exists():
+    env_path = Path(__file__).parent.parent.parent / ".env"
+load_dotenv(dotenv_path=env_path)
+print(f"🔍 Looking for .env file at: {env_path}")
+print(f"   .env file exists: {env_path.exists()}")
+if env_path.exists():
+    print(f"   ✅ .env file found, loading variables...")
+else:
+    print(f"   ⚠️ .env file not found, using system environment variables")
 
 app = FastAPI(title="Real Estate Dashboard API")
 
@@ -33,13 +43,19 @@ GRAPHS_PATH = Path(r"C:\Users\oamir\Desktop\Build with AI 2026\Notebooks\graphs"
 
 # OpenAI API - load from environment variable
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+print(f"🔑 OpenAI API Key loaded: {'Yes' if OPENAI_API_KEY else 'No'} (length: {len(OPENAI_API_KEY) if OPENAI_API_KEY else 0})")
+if OPENAI_API_KEY:
+    print(f"   Key starts with: {OPENAI_API_KEY[:10]}...")
 try:
     if OPENAI_API_KEY:
         openai_client = OpenAI(api_key=OPENAI_API_KEY)
         print("✅ OpenAI client initialized successfully")
     else:
         openai_client = None
-        print("⚠️ OpenAI API key not provided (set OPENAI_API_KEY environment variable)")
+        print("⚠️ OpenAI API key not provided")
+        print(f"   Current working directory: {os.getcwd()}")
+        print(f"   .env file should be at: {Path(__file__).parent / '.env'}")
+        print(f"   .env file exists: {(Path(__file__).parent / '.env').exists()}")
 except Exception as e:
     openai_client = None
     print(f"❌ Failed to initialize OpenAI client: {e}")
