@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дашборд недвижимости</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <h1>Дашборд недвижимости</h1>
+            </div>
+        </header>
+
+        <main>
+
+            <!-- Описание проекта -->
+            <div class="project-description">
+                <div class="description-content">
+                    <h2>О проекте</h2>
+                    <p>
+                        <strong>Somon.tj</strong> — это интеллектуальная платформа для оценки недвижимости в Таджикистане, 
+                        которая помогает <strong>быстро и выгодно продать квартиру</strong>, а покупателям найти 
+                        <strong>доступное жилье по справедливой цене</strong>.
+                    </p>
+                    <p>
+                        Наша система использует машинное обучение для точной оценки рыночной стоимости квартиры на основе 
+                        множества факторов: площади, района, ремонта, отопления и других важных характеристик. 
+                        Это позволяет <strong>продавцам установить оптимальную цену для быстрой продажи</strong>, 
+                        а <strong>покупателям — найти качественное жилье по справедливой рыночной стоимости</strong>.
+                    </p>
+                    <p>
+                        <strong>Важно:</strong> Модель учитывает более 11,000 реальных сделок и постоянно обучается на актуальных данных, 
+                        что обеспечивает высокую точность прогнозов. Получите персональные рекомендации от AI-эксперта 
+                        по улучшению вашей квартиры для повышения её стоимости.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Прогнозирование -->
+            <section id="forecast" class="section active">
+                <h2>Оценка квартиры для продажи</h2>
+                <div id="sale-tab" class="tab-content active">
+                    <form id="sale-form" class="form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="sale-rooms">Количество комнат *</label>
+                                <select id="sale-rooms" name="rooms" required>
+                                    <option value="">Выберите количество комнат</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3" selected>3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sale-area">Площадь (м²) *</label>
+                                <input type="number" id="sale-area" name="area_m2" step="1" min="1" max="500" value="50" required>
+                                <small style="color: #6B7280; font-size: 0.85rem;">От 1 до 500 м²</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sale-floor">Этаж *</label>
+                                <select id="sale-floor" name="floor" required>
+                                    <option value="">Выберите этаж</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sale-district">Район *</label>
+                                <select id="sale-district" name="district" required>
+                                    <option value="">Выберите район</option>
+                                    <option value="Сино" selected>Сино</option>
+                                    <option value="Фирдавси">Фирдавси</option>
+                                    <option value="Шохмансур">Шохмансур</option>
+                                    <option value="И. Сомони">И. Сомони</option>
+                                    <option value="Другое">Другое</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sale-build-type">Тип застройки *</label>
+                                <select id="sale-build-type" name="build_type" required>
+                                    <option value="">Выберите тип застройки</option>
+                                    <option value="Новостройка">Новостройка</option>
+                                    <option value="Вторичный рынок" selected>Вторичный рынок</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sale-renovation">Ремонт *</label>
+                                <select id="sale-renovation" name="renovation" required>
+                                    <option value="">Выберите тип ремонта</option>
+                                    <option value="Новый ремонт" selected>Новый ремонт</option>
+                                    <option value="Без ремонта (коробка)">Без ремонта (коробка)</option>
+                                    <option value="С ремонтом">С ремонтом</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sale-bathroom">Санузел *</label>
+                                <select id="sale-bathroom" name="bathroom" required>
+                                    <option value="">Выберите тип санузла</option>
+                                    <option value="Раздельный" selected>Раздельный</option>
+                                    <option value="Совмещенный">Совмещенный</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sale-heating">Отопление *</label>
+                                <select id="sale-heating" name="heating" required>
+                                    <option value="">Выберите наличие отопления</option>
+                                    <option value="Есть" selected>Есть</option>
+                                    <option value="Нет">Нет</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sale-condition">Состояние *</label>
+                                <select id="sale-condition" name="condition" required>
+                                    <option value="">Выберите состояние</option>
+                                    <option value="Построено" selected>Построено</option>
+                                    <option value="На стадии строительства">На стадии строительства</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sale-techpassport">Техпаспорт *</label>
+                                <select id="sale-techpassport" name="techpassport" required>
+                                    <option value="">Выберите наличие техпаспорта</option>
+                                    <option value="Есть" selected>Есть</option>
+                                    <option value="Нет">Нет</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="sale-price">Ваша цена продажи (сомони)</label>
+                                <input type="number" id="sale-price" name="price" min="0" step="1000">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-primary">Получить оценку</button>
+                    </form>
+
+                    <div id="sale-result" class="result hidden"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+
